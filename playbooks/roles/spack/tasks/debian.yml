@@ -1,0 +1,40 @@
+---
+- name: install GIT
+  apt: 
+    name: git
+    state: latest
+  become: true
+  when: cluster_nfs
+  register: result
+  until: result is not failed
+  retries: 5
+  delay: 5
+
+- name: Development Tools" 
+  apt: 
+    name: build-essential
+  become: true
+  when: cluster_nfs
+  register: result
+  until: result is not failed
+  retries: 5
+  delay: 5
+
+- name: Clone SPACK
+  git: 
+    repo: "{{ spack_repo }}"
+    dest: "{{ cluster_nfs_path }}/spack"
+    update: no
+  run_once: true
+  when: cluster_nfs
+
+- name: Add SPACK initialization 
+  template: 
+    src: templates/spack.j2
+    dest: /etc/profile.d/spack.sh
+    owner: root
+    group: root
+    mode: '0755' 
+  become: true
+  when: cluster_nfs
+

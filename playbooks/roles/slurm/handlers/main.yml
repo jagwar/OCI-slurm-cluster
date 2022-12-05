@@ -1,0 +1,36 @@
+
+- name: restart slurm server
+  become: true
+  service:
+    name: '{{ item }}'
+    state: restarted
+    enabled: true
+  with_items:
+    - slurmdbd
+    - slurmctld
+
+- name: restart slurm
+  become: true
+  service: 
+    name: '{{ item }}'
+    state: restarted
+    enabled: true
+  with_items: 
+    - slurmd
+
+- name: restart munge
+  become: true
+  service:
+    name: munge
+    state: restarted
+    enabled: true
+
+# seeing this error stderr: 'slurm_reconfigure error: Operation now in progress', that's why added retries
+- name: reconfigure slurm
+  become: true
+  command: "scontrol reconfigure"
+  delegate_to: 127.0.0.1
+  register: result
+  until: result is not failed
+  retries: 5
+  delay: 5
