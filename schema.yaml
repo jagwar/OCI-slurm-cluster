@@ -232,13 +232,13 @@ variables:
     dependsOn:
       compartmentId: ${targetCompartment}
     required: true
-    default: VM.Standard2.4
+    default: VM.Standard.E4.Flex
   bastion_ocpus:
     type: integer
     description: Number of OCPU's for flex shape
     minimum: 1
     maximum: 64
-    default: 2
+    default: 32
     visible:
       and: 
         - or: 
@@ -387,12 +387,12 @@ variables:
     visible:
       and:
         - ${use_advanced}
-    default: false
+    default: true
   bastion_block_volume_size:
     required: true
     type: integer
     title: "Size of the additional volume in GB"
-    default: 1000
+    default: 10000
     visible:
       and:
         - and:
@@ -406,7 +406,7 @@ variables:
       - "0.  Lower performance"
       - "10. Balanced performance"
       - "20. High Performance"
-    default: "10. Balanced performance"
+    default: "20. High Performance"
     visible:
       and:
         - and:
@@ -441,7 +441,7 @@ variables:
   cluster_nfs_path:
     title: "Cluster share mount point"
     description: "Path to NFS share"
-    default: "/nfs/cluster"
+    default: "/gpfsworh/rech"
     type: string
     visible:
       and:
@@ -587,7 +587,7 @@ variables:
     type: boolean
     title: "use marketplace image"
     description: "Use marketplace image, otherwise provide custom image OCID"
-    default: true
+    default: false
 
   use_old_marketplace_image:
     type: boolean
@@ -689,7 +689,7 @@ variables:
   use_advanced:
     type: boolean
     title: "Show advanced storage options"
-    default: false
+    default: true
 
   use_scratch_nfs:
     type: boolean
