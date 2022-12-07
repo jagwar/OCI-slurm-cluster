@@ -441,7 +441,7 @@ variables:
   cluster_nfs_path:
     title: "Cluster share mount point"
     description: "Path to NFS share"
-    default: "/gpfsworh/rech"
+    default: "/gpfswork/rech"
     type: string
     visible:
       and:
